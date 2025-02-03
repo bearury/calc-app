@@ -3,12 +3,21 @@ package org.example;
 import java.util.Scanner;
 
 public class Main {
-    public static void main(String[] args) throws Exception {
+    public static void main(String[] args)  {
         Scanner scanner = new Scanner(System.in);
         System.out.println("Please enter the expression:");
         String input = scanner.nextLine();
 
-        String result = calc(input);
+        String result = "Error!";
+
+        try {
+            result = calc(input);
+        } catch (Exception e) {
+            scanner.close();
+            System.out.println("Invalid expression");
+        }
+
+
         System.out.printf("Result: %s", result);
     }
 
@@ -16,7 +25,7 @@ public class Main {
     public static String calc(String input) throws Exception {
         String inputWithoutSpaces = input.replaceAll("\\s+", "");
 
-        String[] splitInputArray = inputWithoutSpaces.split("(?=[-+*/])|(?<=[-+*/])");
+        String[] splitInputArray = inputWithoutSpaces.split("(?=[-+*/^])|(?<=[-+*/^])");
 
         if (splitInputArray.length != 3) {
             throw new Exception("Invalid expression");
@@ -42,6 +51,7 @@ public class Main {
             case "+" -> num1 + num2;
             case "-" -> num1 - num2;
             case "*" -> num1 * num2;
+            case "^" -> num1 * num1;
             case "/" -> {
                 if (num2 == 0) {
                     throw new Exception("Invalid expression");
